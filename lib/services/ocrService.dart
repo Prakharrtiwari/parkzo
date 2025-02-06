@@ -1,0 +1,1 @@
+// ocr related function
