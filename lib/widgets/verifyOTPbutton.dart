@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for haptic feedback
 import 'package:google_fonts/google_fonts.dart';
 
-class SendOtpButton extends StatefulWidget {
+class VerifyOtpButton extends StatefulWidget {
   final VoidCallback onPressed;
   final double fontSize;
   final double horizontalPadding;
   final double verticalPadding;
 
-  const SendOtpButton({
+  const VerifyOtpButton({
     Key? key,
     required this.onPressed,
     this.fontSize = 0.045,
@@ -17,10 +17,10 @@ class SendOtpButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SendOtpButton> createState() => _SendOtpButtonState();
+  State<VerifyOtpButton> createState() => _VerifyOtpButtonState();
 }
 
-class _SendOtpButtonState extends State<SendOtpButton> {
+class _VerifyOtpButtonState extends State<VerifyOtpButton> {
   bool _isPressed = false; // Track button press state
 
   @override
@@ -38,11 +38,11 @@ class _SendOtpButtonState extends State<SendOtpButton> {
       },
       onTapUp: (_) {
         setState(() => _isPressed = false); // Restore button size
-        Future.delayed(const Duration(milliseconds: 100), widget.onPressed); // Slight delay for smoother effect
+        Future.delayed(const Duration(milliseconds: 100), widget.onPressed); // Delay action slightly
       },
-      onTapCancel: () => setState(() => _isPressed = false), // Restore if canceled
+      onTapCancel: () => setState(() => _isPressed = false), // Restore size if tap is canceled
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100), // Smooth animation
         curve: Curves.easeInOut,
         transform: Matrix4.identity()..scale(_isPressed ? 0.95 : 1.0), // Shrink effect
         decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _SendOtpButtonState extends State<SendOtpButton> {
         ),
         child: Center(
           child: Text(
-            'Send OTP',
+            'Verify',
             style: GoogleFonts.fredoka(
               textStyle: TextStyle(
                 color: Colors.white,

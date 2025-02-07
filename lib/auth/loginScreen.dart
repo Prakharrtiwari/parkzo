@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import for haptic feedback
 import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/phoneNumberInput.dart';
 import '../widgets/sendOtpButton.dart';
+import 'authService.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,11 +22,10 @@ class _LoginPageState extends State<LoginPage> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard opens
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        // Make the page scrollable
         child: Container(
-          height: screenHeight, // Ensure the container takes full height
+          height: screenHeight,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('lib/assets/images/bg.jpg'),
@@ -33,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Stack(
             children: [
-              // Parkzo Text and Subtext
               Positioned(
                 top: screenHeight * 0.16,
                 left: screenWidth * 0.06,
@@ -50,41 +50,46 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.0001), // Add some spacing
+                    SizedBox(height: screenHeight * 0.0001),
                     Text(
                       'Instant Logs,\nZero Hassle!',
                       style: GoogleFonts.fredoka(
                         textStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: screenWidth * 0.05, // Smaller font size
-                          fontWeight: FontWeight.w600, // Lighter font weight
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              // Phone Number Input (Moved down to create space)
               Positioned(
-                top: screenHeight * 0.37, // Adjusted to create more space
+                top: screenHeight * 0.37,
                 left: screenWidth * 0.05,
                 right: screenWidth * 0.05,
                 child: PhoneNumberInput(controller: _phoneController),
               ),
-              // Send OTP Button (Moved down accordingly)
               Positioned(
-                top: screenHeight * 0.45, // Adjusted to create more space
+                top: screenHeight * 0.45,
                 left: screenWidth * 0.05,
                 right: screenWidth * 0.05,
                 child: SendOtpButton(
                   onPressed: () {
-                    // Handle OTP sending logic here
+                    String phoneNumber = _phoneController.text.trim();
+
+                    // Ensure the phone number starts with "+91"
+                    if (!phoneNumber.startsWith("+91")) {
+                      phoneNumber = "+91$phoneNumber";
+                    }
+
+                    AuthServices.sendOTP(context, phoneNumber);
                   },
+
                 ),
               ),
-              // OR Divider (Moved down accordingly)
               Positioned(
-                top: screenHeight * 0.59, // Adjusted to create more space
+                top: screenHeight * 0.59,
                 left: screenWidth * 0.2,
                 right: screenWidth * 0.2,
                 child: Column(
@@ -121,18 +126,22 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              // Google Logo (Moved down accordingly)
               Positioned(
-                top: screenHeight * 0.68, // Adjusted to create more space
+                top: screenHeight * 0.68,
                 left: screenWidth * 0.35,
                 right: screenWidth * 0.35,
-                child: Image.asset(
-                  'lib/assets/images/google.png',
-                  width: screenWidth * 0.15,
-                  height: screenWidth * 0.15,
+                child: GestureDetector(
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    AuthServices.signInWithGoogle(context);
+                  },
+                  child: Image.asset(
+                    'lib/assets/images/google.png',
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                  ),
                 ),
               ),
-              // Bottom Text (No changes needed)
               Positioned(
                 bottom: screenHeight * 0.05,
                 left: screenWidth * 0.1,

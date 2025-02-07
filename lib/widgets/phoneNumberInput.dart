@@ -16,20 +16,19 @@ class PhoneNumberInput extends StatelessWidget {
     // Responsive font size
     final fontSize = screenWidth * 0.040; // Adjust multiplier as needed
 
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: 'Enter phone number',
-        hintStyle: GoogleFonts.fredoka(
-          textStyle: TextStyle(
-            color: Color.fromRGBO(6, 2, 112, 1), // Hint text color
-            fontSize: fontSize, // Responsive font size
-          ),
-        ),
-
-        prefix: Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Responsive padding
-          child: Text(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white, // Background color of the container
+        borderRadius: BorderRadius.circular(30), // Border radius of 30
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: screenHeight * 0.001, // Add some vertical padding
+        horizontal: screenWidth * 0.05, // Add some horizontal padding
+      ),
+      child: Row(
+        children: [
+          // Fixed +91 prefix
+          Text(
             '+91',
             style: GoogleFonts.fredoka(
               textStyle: TextStyle(
@@ -39,35 +38,52 @@ class PhoneNumberInput extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0), // Ensure prefix is always visible
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0), // Circular border radius
-        ),
-        filled: true,
-        fillColor: Colors.white, // White background
-        contentPadding: EdgeInsets.symmetric(
-          vertical: screenHeight * 0.015, // Responsive vertical padding
-          horizontal: screenWidth * 0.04, // Responsive horizontal padding
-        ),
+          SizedBox(width: screenWidth * 0.02), // Add some spacing between prefix and TextField
+          // TextField for phone number input
+          Expanded(
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                hintText: 'Enter phone number',
+                hintStyle: GoogleFonts.fredoka(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(6, 2, 112, 1), // Hint text color
+                    fontSize: fontSize, // Responsive font size
+                  ),
+                ),
+                filled: true,
+                fillColor: Colors.transparent, // Make the TextField background transparent
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.015, // Responsive vertical padding
+                ),
+                // Remove borders
+                enabledBorder: InputBorder.none, // No border when enabled
+                focusedBorder: InputBorder.none, // No border when focused
+                errorBorder: InputBorder.none, // No border when in error state
+                disabledBorder: InputBorder.none, // No border when disabled
+                border: InputBorder.none, // Default border (fallback)
+              ),
+              style: GoogleFonts.fredoka(
+                textStyle: TextStyle(
+                  color: Color.fromRGBO(6, 2, 112, 1), // Input text color
+                  fontSize: fontSize, // Responsive font size
+                ),
+              ),
+              keyboardType: TextInputType.phone, // Numeric keyboard
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // Only numbers allowed
+                LengthLimitingTextInputFormatter(10), // Max 10 characters
+              ],
+              onChanged: (value) {
+                if (value.length == 10) {
+                  // Dismiss the keyboard when 10 characters are entered
+                  FocusScope.of(context).unfocus();
+                }
+              },
+            ),
+          ),
+        ],
       ),
-      style: GoogleFonts.fredoka(
-        textStyle: TextStyle(
-          color: Color.fromRGBO(6, 2, 112, 1), // Input text color
-          fontSize: fontSize, // Responsive font size
-        ),
-      ),
-      keyboardType: TextInputType.phone, // Numeric keyboard
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly, // Only numbers allowed
-        LengthLimitingTextInputFormatter(10), // Max 10 characters
-      ],
-      onChanged: (value) {
-        if (value.length == 10) {
-          // Dismiss the keyboard when 10 characters are entered
-          FocusScope.of(context).unfocus();
-        }
-      },
     );
   }
 }
