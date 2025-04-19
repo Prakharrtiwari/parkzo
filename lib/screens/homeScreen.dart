@@ -34,11 +34,31 @@ class HomeContentBody extends StatelessWidget {
   });
 
   final List<Map<String, String>> vehicleEntries = const [
-    {'vehicleNo': 'DL 1C 1234', 'time': '2025-04-18 09:00', 'driver': 'Ravi Kumar'},
-    {'vehicleNo': 'UP 16 5678', 'time': '2025-04-18 08:45', 'driver': 'Amit Singh'},
-    {'vehicleNo': 'HR 26 9012', 'time': '2025-04-18 08:30', 'driver': 'Suresh Yadav'},
-    {'vehicleNo': 'RJ 14 3456', 'time': '2025-04-18 08:15', 'driver': 'Vikram Sharma'},
-    {'vehicleNo': 'MH 04 7890', 'time': '2025-04-18 08:00', 'driver': 'Rahul Patil'},
+    {
+      'vehicleNo': 'DL 1C 1234',
+      'time': '2025-04-18 09:00',
+      'driver': 'Ravi Kumar'
+    },
+    {
+      'vehicleNo': 'UP 16 5678',
+      'time': '2025-04-18 08:45',
+      'driver': 'Amit Singh'
+    },
+    {
+      'vehicleNo': 'HR 26 9012',
+      'time': '2025-04-18 08:30',
+      'driver': 'Suresh Yadav'
+    },
+    {
+      'vehicleNo': 'RJ 14 3456',
+      'time': '2025-04-18 08:15',
+      'driver': 'Vikram Sharma'
+    },
+    {
+      'vehicleNo': 'MH 04 7890',
+      'time': '2025-04-18 08:00',
+      'driver': 'Rahul Patil'
+    },
   ];
 
   final List<Map<String, dynamic>> recentActivities = const [
@@ -73,65 +93,183 @@ class HomeContentBody extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.05),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: screenHeight * 0.02),
-            _buildQuickStats(context, screenWidth, screenHeight),
-            SizedBox(height: screenHeight * 0.035),
-            _buildOptionCard(
-              context,
-              screenWidth,
-              screenHeight,
-              title: 'Manage Entries',
-              subtitle: 'Sync vehicle entries into the record',
-              icon: Icons.edit_note,
-              gradientColors: [
-                AppColors.darkBlue,
-                Color.lerp(AppColors.lightVioletBlue, AppColors.accent, 0.2)!,
-              ],
-              onTap: () {},
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(screenHeight * 0.12),
+        child: Container(
+          width: screenWidth,
+          height: screenHeight * 0.20,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            SizedBox(height: screenHeight * 0.03),
-            _buildOptionCard(
-              context,
-              screenWidth,
-              screenHeight,
-              title: 'Select default options',
-              subtitle: 'Select In/Out or Residential/Visitor',
-              icon: Icons.local_parking,
-              gradientColors: [
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                offset: const Offset(0, 6),
+                blurRadius: 10,
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.darkBlue,
                 AppColors.lightVioletBlue,
-                Color.lerp(AppColors.darkBlue, AppColors.glassWhite, 0.3)!,
               ],
-              onTap: () {},
             ),
-            SizedBox(height: screenHeight * 0.03),
-            _buildOptionCard(
-              context,
-              screenWidth,
-              screenHeight,
-              title: 'Completed Entries',
-              subtitle: 'View or export completed entries',
-              icon: Icons.check_circle,
-              gradientColors: [
-                AppColors.darkBlue,
-                Color.lerp(AppColors.lightVioletBlue, AppColors.accent, 0.3)!,
-              ],
-              onTap: () {},
-            ),
-            SizedBox(height: screenHeight * 0.035),
-            _buildRecentActivity(context, screenWidth, screenHeight),
-          ],
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: -screenWidth * 0.3,
+                top: -screenHeight * 0.1,
+                child: Container(
+                  width: screenWidth * 0.8,
+                  height: screenHeight * 0.3,
+                  decoration: BoxDecoration(
+                    color: AppColors.glassWhite,
+                    borderRadius: BorderRadius.all(Radius.elliptical(300, 200)),
+                    border: Border.all(color: Colors.white.withOpacity(0.2)),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.06,
+                top: screenHeight * 0.08,
+                child: Row(
+                  children: [
+                    Container(
+                      width: screenWidth * 0.12,
+                      height: screenWidth * 0.12,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.directions_car,
+                        color: AppColors.darkBlue,
+                        size: 28,
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.03),
+                    Text(
+                      'Parkzo',
+                      style: GoogleFonts.poppins(
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.white,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Positioned(
+                right: screenWidth * 0.06,
+                top: screenHeight * 0.08,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()),
+                    );
+                  },
+                  child: Container(
+                    width: screenWidth * 0.12,
+                    height: screenWidth * 0.12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 8,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(Icons.person,
+                        color: AppColors.darkBlue, size: 28),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(screenWidth * 0.05),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: screenHeight * 0.02),
+              _buildQuickStats(context, screenWidth, screenHeight),
+              SizedBox(height: screenHeight * 0.035),
+              _buildOptionCard(
+                context,
+                screenWidth,
+                screenHeight,
+                title: 'Manage Entries', // Fixed: Correct named parameter
+                subtitle: 'Sync vehicle entries into the record',
+                icon: Icons.edit_note,
+                gradientColors: [
+                  AppColors.darkBlue,
+                  Color.lerp(AppColors.lightVioletBlue, AppColors.accent, 0.2)!,
+                ],
+                onTap: () {},
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              _buildOptionCard(
+                context,
+                screenWidth,
+                screenHeight,
+                title: 'Select default options',
+                subtitle: 'Select In/Out or Residential/Visitor',
+                icon: Icons.local_parking,
+                gradientColors: [
+                  AppColors.lightVioletBlue,
+                  Color.lerp(AppColors.darkBlue, AppColors.glassWhite, 0.3)!,
+                ],
+                onTap: () {},
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              _buildOptionCard(
+                context,
+                screenWidth,
+                screenHeight,
+                title: 'Completed Entries',
+                subtitle: 'View or export completed entries',
+                icon: Icons.check_circle,
+                gradientColors: [
+                  AppColors.darkBlue,
+                  Color.lerp(AppColors.lightVioletBlue, AppColors.accent, 0.3)!,
+                ],
+                onTap: () {},
+              ),
+              SizedBox(height: screenHeight * 0.035),
+              _buildRecentActivity(context, screenWidth, screenHeight),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildQuickStats(BuildContext context, double screenWidth, double screenHeight) {
+  Widget _buildQuickStats(
+      BuildContext context, double screenWidth, double screenHeight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -265,7 +403,7 @@ class HomeContentBody extends StatelessWidget {
       }) {
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 1.0, end: 1.0),
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 1),
       builder: (context, scale, child) {
         return Transform.scale(
           scale: scale,
@@ -354,7 +492,8 @@ class HomeContentBody extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentActivity(BuildContext context, double screenWidth, double screenHeight) {
+  Widget _buildRecentActivity(
+      BuildContext context, double screenWidth, double screenHeight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -405,7 +544,8 @@ class HomeContentBody extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: recentActivities.length,
-            separatorBuilder: (context, index) => SizedBox(height: screenHeight * 0.025),
+            separatorBuilder: (context, index) =>
+                SizedBox(height: screenHeight * 0.025),
             itemBuilder: (context, index) {
               final activity = recentActivities[index];
               return FadeTransition(
@@ -427,7 +567,9 @@ class HomeContentBody extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Tapped: ${activity['description']}')),
+                        SnackBar(
+                            content:
+                            Text('Tapped: ${activity['description']}')),
                       );
                     },
                     child: Row(
@@ -510,7 +652,8 @@ class HomeContentBody extends StatelessWidget {
   }
 
   Widget _buildHighlightedDescription(String description, double screenWidth) {
-    final vehicleNoPattern = RegExp(r'[A-Z]{2}\s*\d{1,2}\s*[A-Z0-9]{1,4}\s*\d{4}');
+    final vehicleNoPattern =
+    RegExp(r'[A-Z]{2}\s*\d{1,2}\s*[A-Z0-9]{1,4}\s*\d{4}');
     final vehicleNoMatch = vehicleNoPattern.firstMatch(description);
     final vehicleNo = vehicleNoMatch?.group(0) ?? '';
 
@@ -550,7 +693,8 @@ class HomeContent extends StatefulWidget {
   State<HomeContent> createState() => _HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent> with SingleTickerProviderStateMixin {
+class _HomeContentState extends State<HomeContent>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -564,18 +708,21 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 300), // Faster transition
     );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOutQuad, // Snappier curve
+      ),
     );
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
+      begin: const Offset(1.0, 0.0), // Slide from right
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutQuad, // Matching curve
       ),
     );
     _animationController.forward();
@@ -612,134 +759,9 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight * 0.20),
-        child: Container(
-          width: screenWidth,
-          height: screenHeight * 0.20,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                offset: const Offset(0, 6),
-                blurRadius: 10,
-              ),
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                AppColors.darkBlue,
-                AppColors.lightVioletBlue,
-              ],
-            ),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: -screenWidth * 0.3,
-                top: -screenHeight * 0.1,
-                child: Container(
-                  width: screenWidth * 0.8,
-                  height: screenHeight * 0.3,
-                  decoration: BoxDecoration(
-                    color: AppColors.glassWhite,
-                    borderRadius: BorderRadius.all(Radius.elliptical(300, 200)),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: screenWidth * 0.06,
-                top: screenHeight * 0.05,
-                child: Row(
-                  children: [
-                    Container(
-                      width: screenWidth * 0.12,
-                      height: screenWidth * 0.12,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.directions_car,
-                        color: AppColors.darkBlue,
-                        size: 28,
-                      ),
-                    ),
-                    SizedBox(width: screenWidth * 0.03),
-                    Text(
-                      'Parkzo',
-                      style: GoogleFonts.poppins(
-                        fontSize: screenWidth * 0.05,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.white,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                left: screenWidth * 0.06,
-                top: screenHeight * 0.12,
-                child: Text(
-                  'Hello, Prakhar',
-                  style: GoogleFonts.poppins(
-                    fontSize: screenWidth * 0.045,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white.withOpacity(0.9),
-                  ),
-                ),
-              ),
-              Positioned(
-                right: screenWidth * 0.06,
-                top: screenHeight * 0.05,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 4; // Navigate to ProfilePage
-                    });
-                    _animationController.reset();
-                    _animationController.forward();
-                  },
-                  child: Container(
-                    width: screenWidth * 0.12,
-                    height: screenWidth * 0.12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Icon(Icons.person, color: AppColors.darkBlue, size: 28),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
       body: SlideTransition(
         position: _slideAnimation,
         child: IndexedStack(
@@ -813,7 +835,8 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(_selectedIndex == 2 ? 0.3 : 0.2),
+                          color: Colors.black.withOpacity(
+                              _selectedIndex == 2 ? 0.3 : 0.2),
                           blurRadius: _selectedIndex == 2 ? 12 : 8,
                           offset: Offset(0, 4),
                         ),
@@ -854,12 +877,14 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildHighlightedIcon({required IconData icon, required bool isSelected}) {
+  Widget _buildHighlightedIcon(
+      {required IconData icon, required bool isSelected}) {
     return Container(
       width: 52,
       height: 32,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.darkBlue.withOpacity(0.15) : Colors.transparent,
+        color:
+        isSelected ? AppColors.darkBlue.withOpacity(0.15) : Colors.transparent,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Icon(
