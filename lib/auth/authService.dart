@@ -39,7 +39,7 @@ class AuthServices {
       Navigator.pop(context); // Close loading indicator
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeContent()),
       );
     } catch (e) {
       Navigator.pop(context); // Close loading indicator
@@ -63,7 +63,7 @@ class AuthServices {
           await _auth.signInWithCredential(credential);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(builder: (context) => const HomeContent()),
           );
         },
         verificationFailed: (FirebaseAuthException e) {
@@ -104,7 +104,7 @@ class AuthServices {
         await _auth.signInWithCredential(credential);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const HomeContent()),
         );
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -132,7 +132,7 @@ class AuthServices {
       // ✅ Navigate to Home on success
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeContent()),
       );
     } catch (e) {
       showToast(context, "OTP Verification Failed: $e", 2);
